@@ -11,7 +11,57 @@
 // about supported directives.
 
 //= require jquery
+//= require jquery_ujs
 //= require bootstrap
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+//= require static_pages
+
+$(document).ready(function(){
+  $('input[type=submit]').on('click', function(){
+     var params = $('#micropost_content').serialize();
+     // alert(params);
+     $.ajax({
+        method: 'POST',
+        url: '/microposts/',
+        dataType: 'json',
+        data: params,
+        success: function(data){
+          if(data.status == 'success') {
+            pnotify(I18n.t('action.success'), data.message);
+            $('.content').prepend(data.content);
+          } else {
+            pnotify(I18n.t('action.error'), data.message, 'error');
+          }
+          // $('.content').html(r);
+           // alert("abc");
+        }
+     });
+  });
+});
+
+$(document).ready(function(){
+  $('.micropost-delete').on('click', function(){
+    var postId = this.id;
+    if(confirm("Are you sure?")){
+      $.ajax({
+        method: 'DELETE',
+        url: '/microposts/' + postId,
+        dataType: 'html',
+        success: function(r){
+          $('#micropost-'+ postId).remove();
+        }
+      });
+    }
+  });
+});
+
+
+
+
+// $(document).ready(function(){
+//   $(".micropost-delete").click(function(){
+//     alert("abc");
+//   });
+// })
