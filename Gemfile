@@ -17,6 +17,8 @@ gem 'carrierwave'
 
 gem 'active_model_serializers'
 
+gem 'bootstrap-tagsinput-rails'
+
 gem 'mini_magick'
 
 gem 'fog'

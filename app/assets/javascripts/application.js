@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require_tree .
 //= require static_pages
+//= require bootstrap-tagsinput
 
 $(document).ready(function(){
   $('input[type=submit]').on('click', function(event){
