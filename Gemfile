@@ -15,6 +15,8 @@ gem 'faker',          '1.7.3'
 
 gem 'carrierwave'
 
+gem 'active_model_serializers'
+
 gem 'mini_magick'
 
 gem 'fog'

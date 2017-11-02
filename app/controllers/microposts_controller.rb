@@ -1,16 +1,20 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: :destroy
+  
+  def index
+    if params[:tag]
+      @micropost = Micropost.tagged_with(params[:tag])
+    else
+      @micropost = Micropost.all
+    end
+  end
   def create
     @micropost = current_user.microposts.build(micropost_params)
       if @micropost.save
-        render json: {
-          status: :success,
-          # message: flash_message(:create, Micropost),
-          content: render partial: "microposts/micropost",  locals: {micropost: @micropost}
-        }
+        render json: {status: "success", content: @micropost.content}
       else
-        render json: {status: :error, message: "flash.custom.micropost.create.fail"}
+        render json: {status: "error"}, status: :unprocessable_entity
       end
       # if @micropost.save
       #   flash[:success] = "Micropost created!"
@@ -23,14 +27,14 @@ class MicropostsController < ApplicationController
 
   def destroy
     @micropost.destroy
-    flash[:success] = "Micropost deleted"
+    # flash[:success] = "Micropost deleted"
     # redirect_to request.referrer || root_url
   end
 
   private
 
     def micropost_params
-      params.require(:micropost).permit(:content, :picture)
+      params.require(:micropost).permit(:content, :picture, :all_tags)
     end
 
     def correct_user

@@ -19,23 +19,24 @@
 //= require static_pages
 
 $(document).ready(function(){
-  $('input[type=submit]').on('click', function(){
-     var params = $('#micropost_content').serialize();
+  $('input[type=submit]').on('click', function(event){
+     var params = $('form#new_micropost').serializeArray();
+     event.preventDefault();
      // alert(params);
      $.ajax({
         method: 'POST',
-        url: '/microposts/',
+        url: '/microposts',
         dataType: 'json',
         data: params,
         success: function(data){
-          if(data.status == 'success') {
-            pnotify(I18n.t('action.success'), data.message);
-            $('.content').prepend(data.content);
-          } else {
-            pnotify(I18n.t('action.error'), data.message, 'error');
-          }
-          // $('.content').html(r);
-           // alert("abc");
+          // location.reload();
+          // console.log(data)
+          // $('#result').append(data.content);
+          // $('#micropost_content').val('');
+          location.reload();
+        },
+        error: function(data) {
+          $('.container').prepend('<div class="alert alert-danger">' + 'CREATE FAILURE' + '</div>');
         }
      });
   });

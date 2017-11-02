@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'tags/:tag', to: 'microposts#index', as: :tag
   get 'password_reset/new'
   get 'password_reset/edit'
   # get 'sessions/new'
