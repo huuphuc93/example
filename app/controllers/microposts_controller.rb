@@ -4,6 +4,7 @@ class MicropostsController < ApplicationController
   
   def index
     if params[:tag]
+      @tag = Tag.find_by(name: params[:tag])
       @micropost = Micropost.tagged_with(params[:tag])
     else
       @micropost = Micropost.all
