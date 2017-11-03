@@ -1,7 +1,7 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: :destroy
-  
+
   def index
     if params[:tag]
       @tag = Tag.find_by(name: params[:tag])
@@ -11,12 +11,21 @@ class MicropostsController < ApplicationController
     end
   end
   def create
+    # byebug
     @micropost = current_user.microposts.build(micropost_params)
-      if @micropost.save
-        render json: {status: "success", content: @micropost.content}
-      else
-        render json: {status: "error"}, status: :unprocessable_entity
-      end
+    # byebug
+    if @micropost.save
+      render json: {
+        status: :success,
+        content: render_to_string(partial: "microposts/micropost",
+          locals: {
+            micropost: @micropost.reload
+          }
+          )
+      }
+    else
+      render json: {status: "error"}, status: :unprocessable_entity
+    end
       # if @micropost.save
       #   flash[:success] = "Micropost created!"
       #   redirect_to root_url
