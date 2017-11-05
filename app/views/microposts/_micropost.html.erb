@@ -13,5 +13,5 @@
       <button class="micropost-delete" id= "<%= micropost.id %>" >Delete</button>
     <% end %>
   </span>
-  <span>Tags: <%= raw micropost.tags.map(&:name).map {|t| link_to t, tag_path(t) }.join(", ") %></span>
+  <span>Tags: <%= raw micropost.tags.map(&:name).map {|t| link_to t, tag_path(t), class: "tag label label-info" }.join(" ") %></span>
 </li>

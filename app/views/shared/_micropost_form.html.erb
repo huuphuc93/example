@@ -1,16 +1,19 @@
 <div id="result"></div>
-<%= form_for(@micropost) do |f| %>
+<%= form_for @micropost, :multipart => true, :remote => true do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
     <%= f.text_area :content, placeholder: "Compose new micropost..." %>
   </div>
-    <%= f.text_field :all_tags, placeholder: "Tags separated with comma", class:"form-control" %>
+  <div class="field">
+    <%= f.text_field :all_tags, placeholder: "Tags separated with comma", class:"form-control", "data-role": "tagsinput" %>
+   <!--  <input type="text" name="micropost[all_tags]" id="micropost_all_tags" data-role="tagsinput"/> -->
+  </div>
     <span class="picture">
     <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
   </span>
   <%= f.submit "Post", class: "btn btn-primary"%>
 <% end %>
-<!--<button class="btn btn-primary" id="create-new-post">Post</button>-->
+<!-- <button class="btn btn-primary col-md-12" id="create-new-post">Post</button> -->
 
 <script type="text/javascript">
   $('#micropost_picture').bind('change', function() {

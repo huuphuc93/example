@@ -17,29 +17,41 @@
 //= require turbolinks
 //= require_tree .
 //= require static_pages
+//= require bootstrap-tagsinput
 
-$(document).ready(function(){
-  $('input[type=submit]').on('click', function(event){
-     var params = $('form#new_micropost').serializeArray();
-     event.preventDefault();
-     // alert(params);
-     $.ajax({
-        method: 'POST',
-        url: '/microposts',
-        dataType: 'json',
-        data: params,
-        success: function(data){
-          // location.reload();
-          // console.log(data)
-          // $('#result').append(data.content);
-          // $('#micropost_content').val('');
-          location.reload();
-        },
-        error: function(data) {
-          $('.container').prepend('<div class="alert alert-danger">' + 'CREATE FAILURE' + '</div>');
-        }
-     });
+// $(document).ready(function(){
+document.addEventListener("turbolinks:load", function() {
+  $("input[data-role=tagsinput]").tagsinput();
+
+  $('form#new_micropost').on('ajax:success', function(data, textStatus, jqXHR) {
+    debugger;
+    $('.microposts').prepend(data.detail[0].content);
   });
+
+  // $('body').on('submit', 'form#new_micropost', function(event){
+  //    event.preventDefault();
+  //    var params = $('form#new_micropost').serialize();
+  //    // alert(params);
+  //    $.ajax({
+  //       method: 'POST',
+  //       url: '/microposts',
+  //       dataType: 'json',
+  //       data: params,
+  //       success: function(data){
+  //         debugger;
+  //         $('.microposts').prepend(data.content);
+  //         // location.reload();
+  //         // console.log(data)
+  //         // $('#result').append(data.content);
+  //         $('#micropost_content').val('');
+  //         // location.reload();
+  //           // alert(data);
+  //       },
+  //       error: function(data) {
+  //         $('.container').prepend('<div class="alert alert-danger">' + 'CREATE FAILURE' + '</div>');
+  //       }
+  //    });
+  // });
 });
 
 $(document).ready(function(){
